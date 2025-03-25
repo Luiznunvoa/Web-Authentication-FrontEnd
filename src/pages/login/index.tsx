@@ -54,7 +54,7 @@ export function Login() {
       </div>
 
       <button type="submit">Login</button>
-      <NavLink to={"/register"}>Não tem conta?</NavLink>
+      <NavLink to={"/register"}>Não tem conta??</NavLink>
     </form>
   );
 }
