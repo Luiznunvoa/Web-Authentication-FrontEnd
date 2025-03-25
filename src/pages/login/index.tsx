@@ -1,21 +1,29 @@
+import { useSession } from "../../hooks/useSession";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { NavLink } from "react-router-dom";
-
-interface LoginFormInputs {
-  email: string;
-  password: string;
-}
 
 export function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>();
+  } = useForm<{ email: string; password: string }>();
+  const { login, loading, error } = useSession();
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = (
+    data,
+  ) => {
+    login({ email: data.email, password: data.password });
   };
+
+  if (loading) return <>Loading...</>;
+  if (error)
+    return (
+      <>
+        <p>Erro inesperado aconteceu! Verifique suas credenciais!</p>
+        <a onClick={() => window.location.href = "/login"}>Voltar</a>
+      </>
+    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

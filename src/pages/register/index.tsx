@@ -1,22 +1,21 @@
-import { useForm, SubmitHandler } from "react-hook-form";
 import { NavLink } from "react-router-dom";
-
-interface RegisterFormInputs {
-  name: string;
-  email: string;
-  password: string;
-}
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useUser } from "../../hooks/useUsers";
 
 export function Register() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterFormInputs>();
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors }, 
+  } = useForm<{ name: string, email: string, password: string }>();
+  const { createUser, loading, error } = useUser()
 
-  const onSubmit: SubmitHandler<RegisterFormInputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<{ name: string, email: string, password: string }> = (data) => {
+    createUser({ name: data.name, email: data.email, password: data.password })
   };
+
+  if (loading) return <>Loading...</>;
+  if (error) return <>Erro inesperado aconteceu! Talvez o usuário já exista...</>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -7,4 +7,6 @@ export const StyledMain = styled.main`
     align-items: center;
     width: 100%;
     padding: 10px;
+    gap: 30px;
+    margin-top: 5rem;
 `;
